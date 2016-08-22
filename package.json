@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "http-server -a localhost -p 8080",
+    "start": "http-server -a localhost -p 3000",
+    "compile": "kajero html index.md > index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
