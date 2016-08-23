@@ -10,7 +10,7 @@
             ---
             title: "Javascript tutorial"
             author: "László Simon <laszlo.simon@t-systems.com>"
-            created: "Mon Aug 22 2016 18:21:47 GMT+0200 (Central Europe Daylight Time)"
+            created: "Tue Aug 23 2016 07:01:50 GMT+0200 (Central Europe Daylight Time)"
             original:
                 title: "Javascript tutorial"
                 url: "http://localhost:3000/"
@@ -343,6 +343,24 @@
             ```javascript; runnable
             var person = new this.Person('Cookie', 'Monster', 47, 'black')
             return Object.keys(person);
+            ```
+
+            But back to Arrays. Array's prototype has a lot of method. 
+            Let's see the commonly used ones (at least I use them often):
+
+            ```javascript; runnable
+            this.fruits = ['Apple', 'Banana', 'Pineapple', 
+                           'Coconut', 'Orange', 'Lemon'];
+            ```
+
+            #### forEach
+
+            As it names states, it's a loop
+
+            ```javascript; runnable
+            this.fruits.forEach(function(item, index, array){
+                return item;
+            })
             ```
         </script>
         <div id="kajero"></div>

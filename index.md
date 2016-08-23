@@ -1,10 +1,10 @@
 ---
 title: "Javascript tutorial"
 author: "László Simon <laszlo.simon@t-systems.com>"
-created: "Mon Aug 22 2016 18:21:47 GMT+0200 (Central Europe Daylight Time)"
+created: "Tue Aug 23 2016 08:24:05 GMT+0200 (Central Europe Daylight Time)"
 original:
     title: "Javascript tutorial"
-    url: "http://localhost:3000/"
+    url: "http://localhost:3000/index.html"
 show_footer: true
 ---
 
@@ -334,4 +334,125 @@ return Object.keys(Person);
 ```javascript; runnable
 var person = new this.Person('Cookie', 'Monster', 47, 'black')
 return Object.keys(person);
+```
+
+But back to Arrays. Array's prototype has a lot of method. 
+Let's see the commonly used ones (at least I use them often):
+
+```javascript; auto
+this.fruits = ['Apple', 'Banana', 'Pineapple', 
+               'Coconut', 'Orange', 'Lemon'];
+```
+
+#### forEach
+
+As it name states, it's a loop. Is it sync or async?
+
+Let's start with a single for loop, but spin it up with async calls.
+
+What will be the result?
+
+```javascript; runnable
+var result = '\n';
+
+for(let i=0; i < this.fruits.length; i++){
+    let item = this.fruits[i];
+    let index = i;
+    setTimeout(function(){
+        result += (`${index}: ${item}\n`);
+    })
+}
+
+result += 'Is this thing async or sync?\n';
+
+return result;
+```
+
+You may say, it's because return occures before all setTimeouts finishes.
+
+```javascript; runnable
+var wait = function (ms){ // NEVER DO THIS!!!
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
+
+var result = '\n';
+
+for(let i=0; i < this.fruits.length; i++){
+    let item = this.fruits[i];
+    let index = i;
+    setTimeout(function(){
+        result += (`${index}: ${item}\n`);
+    })
+}
+
+result += 'Is this thing async or sync?\n';
+
+wait(this.fruits.length*20);
+return result;
+```
+
+Do you remember? String is one of JS's types. Types not called by a reference. They are always values.
+
+Since setTimeout's function runs on another scope, the result variable inside is not the same as the result variable outside.
+
+```javascript; runnable
+function StringBuilder(base){
+    this.text = base || '\n';
+    this.append = function(str){ this.text += `${str}\n` };
+}
+var result = new StringBuilder();
+
+for(let i=0; i < this.fruits.length; i++){
+    let item = this.fruits[i];
+    let index = i;
+    setTimeout(function(){
+        result.append(`${index}: ${item}`);
+    })
+}
+
+result.append('Is this thing async or sync?');
+
+return result;
+```
+
+What we did? We created a class and initialized a copy of it. It is an object now, which is accessed by reference. Therefore we always manipulate the same string(```this.text```).
+
+Returning to the original topic: You can see the string was built on an async way, since ```'Is this thing...'``` appeared at the begining of the result, because it was executed earlier than the setTimeout function.
+
+```javascript; runnable
+var result = '\n';
+
+this.fruits.forEach(function(item, index, array){
+    result += `${index}: ${item}\n`
+})
+
+result += 'Is this thing async or sync?';
+
+return result;
+```
+
+#### pop
+
+Removes the last element and returns with it.
+
+```javascript; auto
+return {
+    pop: this.fruits.pop(),
+    arr: this.fruits
+}
+```
+
+#### push
+
+Adds a new element to the array and returns the new length
+
+```javascript; auto
+return {
+    push: this.fruits.push('Lemon'),
+    arr: this.fruits
+}
 ```
